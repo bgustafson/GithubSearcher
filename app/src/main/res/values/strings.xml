@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Github Searcher</string>
+
+    <string name="enter_user_hint">Enter Username to search…</string>
+    <string name="find_user">Find User</string>
+
+    <string-array name="users_array">
+        <item>bgustafson</item>
+        <item>stu</item>
+        <item>alf</item>
+        <item>john</item>
+        <item>josh</item>
+        <item>andrew</item>
+        <item>alex</item>
+        <item>sonya</item>
+        <item>mike</item>
+        <item>ben</item>
+    </string-array>
+</resources>
