@@ -1,25 +1,19 @@
 package com.example.brigus.githubsearcher.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.example.brigus.githubsearcher.CommitsActivity;
 import com.example.brigus.githubsearcher.R;
-import com.example.brigus.githubsearcher.model.Commit;
+import com.example.brigus.githubsearcher.fragments.CommitsFragment;
 import com.example.brigus.githubsearcher.model.UserRepo;
-import com.example.brigus.githubsearcher.services.GithubEndpoints;
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.util.List;
 
@@ -79,31 +73,11 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.RepoViewHolder
 
             UserRepo repo = mUserRepos.get(this.getAdapterPosition());
 
-            //open the details view here
-            OkHttpClient client = new OkHttpClient();
-            Retrofit retrofit = new Retrofit.Builder()
-                    .client(client)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(GithubEndpoints.BASE_URL)
-                    .build();
-
-            GithubEndpoints service = retrofit.create(GithubEndpoints.class);
-            final Call<List<Commit>> repoCommits = service.getRepoCommits(repo.getOwner().getLogin(), repo.getName());
-
-            repoCommits.enqueue(new Callback<List<Commit>>() {
-                @Override
-                public void onResponse(Call<List<Commit>> call, Response<List<Commit>> response) {
-
-                    List<Commit> commits = response.body();
-                    //TODO:Do something when the commits list comes back.
-                    Toast.makeText(mActivity, "Commit sha: " + commits.get(0).getSha(), Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Call<List<Commit>> call, Throwable t) {
-                    Toast.makeText(mActivity, "Failed.", Toast.LENGTH_SHORT).show();
-                }
-            });
+            Intent intent = new Intent(mActivity, CommitsActivity.class);
+            intent.putExtra(CommitsFragment.REPO_OWNER_LOGIN_EXTRA, repo.getOwner().getLogin());
+            intent.putExtra(CommitsFragment.REPO_DESCRIPTION_EXTRA, repoDescription_textview.getText());
+            intent.putExtra(CommitsFragment.REPO_EXTRA, repo.getName());
+            mActivity.startActivity(intent);
         }
     }
     //END: Nested class

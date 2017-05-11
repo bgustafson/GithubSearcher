@@ -25,4 +25,8 @@ public interface GithubEndpoints {
     @GET("repos/{user}/{repo_name}/commits")
     Call<List<Commit>> getRepoCommits(@Path("user") String user, @Path("repo_name") String repo_name);
 
+
+    @GET("repos/{user}/{repo_name}/commits/{sha}")
+    Call<Commit> getCommit(@Path("user") String user, @Path("repo_name") String repo_name, @Path("sha") String sha);
+
 }
